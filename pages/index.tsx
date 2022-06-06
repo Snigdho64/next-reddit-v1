@@ -18,6 +18,7 @@ const IndexPage: NextPage<{ posts: PostData[] }> = ({ posts }) => {
 
   return (
     <Layout>
+      <title>Next Reddit</title>
       <Flex w="full" h="full" p={[2, 4, 6]} justify="space-around">
         <Posts posts={posts} />
       </Flex>
