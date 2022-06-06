@@ -1,15 +1,37 @@
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Text,
+  useColorMode,
+  VStack,
+} from '@chakra-ui/react'
+import { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
-import Layout from '../components/Layout'
+import Posts from '../components/Post/Posts/Posts'
+import Layout from '../Layout/Layout'
+import { PostData } from '../types'
+import { getAllCommunities, getAllPosts } from '../utils/firebase'
 
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-)
+const IndexPage: NextPage<{ posts: PostData[] }> = ({ posts }) => {
+
+  return (
+    <Layout>
+      <Flex w="full" h="full" p={[2, 4, 6]} justify="space-around">
+        <Posts posts={posts} />
+      </Flex>
+    </Layout>
+  )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const posts = await getAllPosts()
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts)),
+    },
+  }
+}
 
 export default IndexPage
